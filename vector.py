@@ -50,14 +50,14 @@ class Vector(object):
     def length(self):
         # list_squared = [x**2 for x in self.coordinates]
         # return math.sqrt(sum(list_squared))
-        temp = 0;
+        temp = 0
         for x in self.coordinates:
             temp = temp + x**2
-        return math.sqrt(temp)
+        return temp.sqrt()
 
     def normalized(self):
         try:
-            length = self.length()
+            length = Decimal(self.length())
             return self.multiply(1/length)
         except ZeroDivisionError:
             raise Exception('Cannot nomalize the zero vector')
@@ -67,11 +67,10 @@ class Vector(object):
        return sum(new_coordinates)
 
     def angle(self,v,in_degrees=False):
-        getcontext().prec = 8
         try:
             u1 = self.normalized()
             u2 = v.normalized()
-            cosO = Decimal(u1.dot(u2))+0
+            cosO =u1.dot(u2)
             if in_degrees:
                 degrees_per_radian = 180/math.pi
                 return math.acos(cosO) * degrees_per_radian
@@ -114,5 +113,3 @@ class Vector(object):
         a = self.coordinates
         b = v.coordinates
         return Vector([a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]])
-
-

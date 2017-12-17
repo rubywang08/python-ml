@@ -5,12 +5,12 @@ from vector import Vector
 getcontext().prec = 30
 
 
-class Line(object):
+class Plane(object):
 
     NO_NONZERO_ELTS_FOUND_MSG = 'No nonzero elements found'
 
     def __init__(self, normal_vector=None, constant_term=None):
-        self.dimension = 2
+        self.dimension = 3
 
         if not normal_vector:
             all_zeros = ['0']*self.dimension
@@ -30,14 +30,14 @@ class Line(object):
             c = self.constant_term
             basepoint_coords = [Decimal('0')]*self.dimension
 
-            initial_index = Line.first_nonzero_index(n)
+            initial_index = Plane.first_nonzero_index(n)
             initial_coefficient = n[initial_index]
 
             basepoint_coords[initial_index] = c/initial_coefficient
             self.basepoint = Vector(basepoint_coords)
 
         except Exception as e:
-            if str(e) == Line.NO_NONZERO_ELTS_FOUND_MSG:
+            if str(e) == Plane.NO_NONZERO_ELTS_FOUND_MSG:
                 self.basepoint = None
             else:
                 raise e
@@ -70,7 +70,7 @@ class Line(object):
         n = self.normal_vector
 
         try:
-            initial_index = Line.first_nonzero_index(n)
+            initial_index = Plane.first_nonzero_index(n)
             terms = [write_coefficient(n[i], is_initial_term=(i==initial_index)) + 'x_{}'.format(i+1)
                      for i in range(self.dimension) if round(n[i], num_decimal_places) != 0]
             output = ' '.join(terms)
@@ -94,51 +94,38 @@ class Line(object):
         for k, item in enumerate(iterable):
             if not MyDecimal(item).is_near_zero():
                 return k
-        raise Exception(Line.NO_NONZERO_ELTS_FOUND_MSG)
+        raise Exception(Plane.NO_NONZERO_ELTS_FOUND_MSG)
 
-    def is_parallel(self, line):
+    def is_parallel(self, plane):
         v1 = Vector(self.normal_vector)
-        v2 = Vector(line.normal_vector)
+        v2 = Vector(plane.normal_vector)
         return v1.is_parallel_to(v2)
 
-    def is_equal(self, line):
-        if self.is_parallel(line):
-            n = self.basepoint.minus(line.basepoint)
+    def is_equal(self, plane):
+        if self.is_parallel(plane):
+            n = self.basepoint.minus(plane.basepoint)
             v1 = Vector(self.normal_vector)
             return n.is_orthogonal_to(v1)
-
-    def get_intersection(self,line):
-        if self.is_equal(line):
-            return "is equal"
-        elif self.is_parallel(line):
-            return "is parallel"
-        else:
-            A, B = self.normal_vector
-            C, D = line.normal_vector
-            k1 = self.constant_term
-            k2 = line.constant_term
-            one_over_denom = Decimal('1')/(A*D - B*C)
-            x_numerator = D*k1 - B*k2
-            y_numerator = -C*k1 + A*k2
-            return Vector([x_numerator, y_numerator]).multiply(one_over_denom)
-
 
 class MyDecimal(Decimal):
     def is_near_zero(self, eps=1e-10):
         return abs(self) < eps
 
 
-l1 = Line([Decimal("4.046"), Decimal("2.836")], Decimal("1.21"))
-l2 = Line([Decimal("10.115"), Decimal("7.09")], Decimal("3.025"))
+lan1 = Plane([Decimal("-0.412"), Decimal("3.806"), Decimal("0.728")], Decimal("-3.46"))
+lan2 = Plane([Decimal("1.03"), Decimal("-9.515"), Decimal("-1.82")], Decimal("8.65"))
 
-l3 = Line([Decimal("7.204"), Decimal("3.182")], Decimal("8.68"))
-l4 = Line([Decimal("8.172"), Decimal("4.114")], Decimal("9.883"))
+lan3 = Plane([Decimal("2.611"), Decimal("5.528"), Decimal("0.283")], Decimal("4.6"))
+lan4 = Plane([Decimal("7.715"), Decimal("8.306"), Decimal("5.342")], Decimal("3.76"))
 
-l5 = Line([Decimal("1.182"), Decimal("5.562")], Decimal("6.744"))
-l6 = Line([Decimal("1.773"), Decimal("8.343")], Decimal("9.525"))
-print l1.get_intersection(l2)
-print l3.get_intersection(l4)
-print l5.get_intersection(l6)
+lan5 = Plane([Decimal("-7.926"), Decimal("8.625"), Decimal("-7.212")], Decimal("-7.952"))
+lan6 = Plane([Decimal("-2.642"), Decimal("2.875"), Decimal("-2.404")], Decimal("-2.443"))
 
+print lan1.is_parallel(lan2)
+print lan1.is_equal(lan2)
 
+print lan3.is_parallel(lan4)
+print lan3.is_equal(lan4)
 
+print lan5.is_parallel(lan6)
+print lan5.is_equal(lan6)
