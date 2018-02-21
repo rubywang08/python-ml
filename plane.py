@@ -106,6 +106,8 @@ class Plane(object):
             n = self.basepoint.minus(plane.basepoint)
             v1 = Vector(self.normal_vector)
             return n.is_orthogonal_to(v1)
+        else:
+            return False
 
 class MyDecimal(Decimal):
     def is_near_zero(self, eps=1e-10):
