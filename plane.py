@@ -31,7 +31,10 @@ class Plane(object):
             basepoint_coords = [Decimal('0')]*self.dimension
 
             initial_index = Plane.first_nonzero_index(n)
-            initial_coefficient = n[initial_index]
+            if type(n) is Vector:
+                initial_coefficient = n.coordinates[initial_index]
+            else:
+                initial_coefficient = n[initial_index]
 
             basepoint_coords[initial_index] = c/initial_coefficient
             self.basepoint = Vector(basepoint_coords)
@@ -68,7 +71,8 @@ class Plane(object):
             return output
 
         n = self.normal_vector
-
+        if type(n) is Vector:
+            n = n.coordinates
         try:
             initial_index = Plane.first_nonzero_index(n)
             terms = [write_coefficient(n[i], is_initial_term=(i==initial_index)) + 'x_{}'.format(i+1)
@@ -109,25 +113,28 @@ class Plane(object):
         else:
             return False
 
+
 class MyDecimal(Decimal):
     def is_near_zero(self, eps=1e-10):
         return abs(self) < eps
 
 
-lan1 = Plane([Decimal("-0.412"), Decimal("3.806"), Decimal("0.728")], Decimal("-3.46"))
-lan2 = Plane([Decimal("1.03"), Decimal("-9.515"), Decimal("-1.82")], Decimal("8.65"))
+# lan1 = Plane([Decimal("-0.412"), Decimal("3.806"), Decimal("0.728")], Decimal("-3.46"))
+# lan2 = Plane([Decimal("1.03"), Decimal("-9.515"), Decimal("-1.82")], Decimal("8.65"))
+#
+# lan3 = Plane([Decimal("2.611"), Decimal("5.528"), Decimal("0.283")], Decimal("4.6"))
+# lan4 = Plane([Decimal("7.715"), Decimal("8.306"), Decimal("5.342")], Decimal("3.76"))
+#
+# lan5 = Plane([Decimal("-7.926"), Decimal("8.625"), Decimal("-7.212")], Decimal("-7.952"))
+# lan6 = Plane([Decimal("-2.642"), Decimal("2.875"), Decimal("-2.404")], Decimal("-2.443"))
+#
+# print lan1.is_parallel(lan2)
+# print lan1.is_equal(lan2)
+#
+# print lan3.is_parallel(lan4)
+# print lan3.is_equal(lan4)
+#
+# print lan5.is_parallel(lan6)
+# print lan5.is_equal(lan6)
 
-lan3 = Plane([Decimal("2.611"), Decimal("5.528"), Decimal("0.283")], Decimal("4.6"))
-lan4 = Plane([Decimal("7.715"), Decimal("8.306"), Decimal("5.342")], Decimal("3.76"))
 
-lan5 = Plane([Decimal("-7.926"), Decimal("8.625"), Decimal("-7.212")], Decimal("-7.952"))
-lan6 = Plane([Decimal("-2.642"), Decimal("2.875"), Decimal("-2.404")], Decimal("-2.443"))
-
-print lan1.is_parallel(lan2)
-print lan1.is_equal(lan2)
-
-print lan3.is_parallel(lan4)
-print lan3.is_equal(lan4)
-
-print lan5.is_parallel(lan6)
-print lan5.is_equal(lan6)

@@ -9,6 +9,7 @@ class Vector(object):
                 raise ValueError
             self.coordinates = tuple(coordinates)
             self.dimension = len(coordinates)
+            self.index = 0
 
         except ValueError:
             raise ValueError('The coordinates must be nonempty')
@@ -16,10 +17,21 @@ class Vector(object):
         except TypeError:
             raise TypeError('The coordinates must be an iterable')
 
+    def __getitem__(self, i):
+        return self.coordinates[i]
+
+    # def __iter__(self):
+    #     return self
+    #
+    # def next(self):
+    #         if self.index > self.dimension - 1:
+    #             raise StopIteration
+    #         else:
+    #             self.index += 1
+    #             return self.coordinates[self.index - 1]
 
     def __str__(self):
         return 'Vector: {}'.format(self.coordinates)
-
 
     def __eq__(self, v):
         return self.coordinates == v.coordinates

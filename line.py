@@ -128,17 +128,17 @@ class MyDecimal(Decimal):
         return abs(self) < eps
 
 
-l1 = Line([Decimal("4.046"), Decimal("2.836")], Decimal("1.21"))
-l2 = Line([Decimal("10.115"), Decimal("7.09")], Decimal("3.025"))
-
-l3 = Line([Decimal("7.204"), Decimal("3.182")], Decimal("8.68"))
-l4 = Line([Decimal("8.172"), Decimal("4.114")], Decimal("9.883"))
-
-l5 = Line([Decimal("1.182"), Decimal("5.562")], Decimal("6.744"))
-l6 = Line([Decimal("1.773"), Decimal("8.343")], Decimal("9.525"))
-print l1.get_intersection(l2)
-print l3.get_intersection(l4)
-print l5.get_intersection(l6)
+# l1 = Line([Decimal("4.046"), Decimal("2.836")], Decimal("1.21"))
+# l2 = Line([Decimal("10.115"), Decimal("7.09")], Decimal("3.025"))
+#
+# l3 = Line([Decimal("7.204"), Decimal("3.182")], Decimal("8.68"))
+# l4 = Line([Decimal("8.172"), Decimal("4.114")], Decimal("9.883"))
+#
+# l5 = Line([Decimal("1.182"), Decimal("5.562")], Decimal("6.744"))
+# l6 = Line([Decimal("1.773"), Decimal("8.343")], Decimal("9.525"))
+# print l1.get_intersection(l2)
+# print l3.get_intersection(l4)
+# print l5.get_intersection(l6)
 
 
 
